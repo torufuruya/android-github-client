@@ -30,7 +30,7 @@ class RepoListFragment : Fragment() {
         rcl_repo.layoutManager = LinearLayoutManager(context)
 
         viewModel.repos.observe(this, Observer {
-            rcl_repo.adapter = Adapter(it ?: arrayListOf())
+            rcl_repo.adapter = RepoListAdapter(it ?: arrayListOf())
         })
         viewModel.loadRepos()
     }

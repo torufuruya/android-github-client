@@ -4,11 +4,14 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel;
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 class RepoListViewModel : ViewModel() {
 
@@ -35,3 +38,15 @@ class RepoListViewModel : ViewModel() {
         return service.listRepos("octocat").await()
     }
 }
+
+interface GitHubService {
+    @GET("users/{user}/repos")
+    fun listRepos(@Path("user") user: String): Deferred<List<Repo>>
+}
+
+data class Repo(
+    val id: String,
+    val name: String,
+    val url: String
+)
+
